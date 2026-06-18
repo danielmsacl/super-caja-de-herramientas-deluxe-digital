@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CajaHerramientas.Vistas.Login"
+             BackgroundColor="#6A5ACD">
+
+    <VerticalStackLayout Padding="30" Spacing="25" VerticalOptions="Center">
+
+        <Image Source="logo.png"
+               WidthRequest="480"
+               HeightRequest="280"
+               Aspect="AspectFit"
+               HorizontalOptions="Center"/>
+
+        <Label Text="Ingresar nombre"
+               FontSize="30"
+               TextColor="#000000"
+               HorizontalOptions="Center"/>
+
+        <Entry x:Name="NombreEntry"
+               Placeholder="Tu nombre"
+               FontSize="20"
+               BackgroundColor="White"
+               TextColor="Black"
+               HorizontalOptions="Fill"/>
+
+        <Button x:Name="EntrarButton"
+                Text="ENTRAR"
+                FontSize="16"
+                BackgroundColor="#3498DB"
+                TextColor="#000000"
+                CornerRadius="5"
+                HorizontalOptions="Fill"
+                Clicked="OnEntrarClicked"/>
+
+        <Label x:Name="BienvenidaLabel"
+               FontSize="18"
+               FontAttributes="Bold"
+               TextColor="#27AE60"
+               HorizontalOptions="Center"
+               IsVisible="False"/>
+
+    </VerticalStackLayout>
+
+</ContentPage>
