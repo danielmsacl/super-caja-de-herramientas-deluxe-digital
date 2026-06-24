@@ -29,6 +29,6 @@
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>NSCameraUsageDescription</key>
-	<string>La cámara se usa para mostrar en pantalla el objeto que estás midiendo con la regla.</string>
+	<string>La camara se usa para mostrar objetos en la regla y en la lupa.</string>
 </dict>
 </plist>
