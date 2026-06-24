@@ -2,81 +2,219 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CajaHerramientas.Vistas.Principal"
-             BackgroundColor="#F0F4F8">
+             BackgroundColor="#F0F4F8"
+             Title="Caja de Herramientas">
 
-    <VerticalStackLayout Spacing="10" VerticalOptions="Center" HorizontalOptions="Center">
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="20">
 
-        <Image Source="logo.png"
-               WidthRequest="300"
-               HeightRequest="160"
-               Aspect="AspectFit"
-               HorizontalOptions="Center"/>
+            <!-- Header -->
+            <Border BackgroundColor="White"
+                    Stroke="Transparent"
+                    Padding="24">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16"/>
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,2" Radius="12" Opacity="0.08"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                    <Image Source="logo.png"
+                           WidthRequest="220"
+                           HeightRequest="120"
+                           Aspect="AspectFit"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Caja de Herramientas"
+                           FontSize="26"
+                           FontAttributes="Bold"
+                           TextColor="#1A1A2E"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Selecciona una herramienta"
+                           FontSize="15"
+                           TextColor="#888888"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Border>
 
-        <Button x:Name="BrujulaButton"
-            Text="Brújula"
-            FontSize="24"
-            FontAttributes="Bold"
-            BackgroundColor="#3498DB"
-            TextColor="White"
-            CornerRadius="15"
-            WidthRequest="200"
-            HeightRequest="80"
-            Clicked="OnBrujulaClicked"/>
+            <!-- Tools Grid -->
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto,Auto"
+                  ColumnSpacing="12"
+                  RowSpacing="12">
 
-        <Button x:Name="ReglaButton"
-            Text="Regla"
-            FontSize="24"
-            FontAttributes="Bold"
-            BackgroundColor="#27AE60"
-            TextColor="White"
-            CornerRadius="15"
-            WidthRequest="200"
-            HeightRequest="80"
-            Clicked="OnReglaClicked"/>
+                <!-- Brújula -->
+                <Border Grid.Row="0" Grid.Column="0"
+                        BackgroundColor="White"
+                        Stroke="Transparent"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.06"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <BoxView Color="#3498DB" WidthRequest="40" HeightRequest="4"
+                                 CornerRadius="2" HorizontalOptions="Center" Margin="0,4,0,0"/>
+                        <Label Text="Brújula" FontSize="18" FontAttributes="Bold"
+                               TextColor="#1A1A2E" HorizontalOptions="Center"/>
+                        <Label Text="Dirección" FontSize="12" TextColor="#888888"
+                               HorizontalOptions="Center"/>
+                        <Button Text="Abrir"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                BackgroundColor="#3498DB"
+                                TextColor="White"
+                                CornerRadius="8"
+                                HeightRequest="38"
+                                Clicked="OnBrujulaClicked"/>
+                    </VerticalStackLayout>
+                </Border>
 
-        <Button x:Name="NivelButton"
-            Text="Nivel"
-            FontSize="24"
-            FontAttributes="Bold"
-            BackgroundColor="#E67E22"
-            TextColor="White"
-            CornerRadius="15"
-            WidthRequest="200"
-            HeightRequest="80"
-            Clicked="OnNivelClicked"/>
-        
-        <Button x:Name="LupaButton"
-            Text="Lupa"
-            FontSize="24"
-            FontAttributes="Bold"
-            BackgroundColor="#E67E22"
-            TextColor="White"
-            CornerRadius="15"
-            WidthRequest="200"
-            HeightRequest="80"
-            Clicked="OnLupaClicked"/>
+                <!-- Regla -->
+                <Border Grid.Row="0" Grid.Column="1"
+                        BackgroundColor="White"
+                        Stroke="Transparent"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.06"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <BoxView Color="#27AE60" WidthRequest="40" HeightRequest="4"
+                                 CornerRadius="2" HorizontalOptions="Center" Margin="0,4,0,0"/>
+                        <Label Text="Regla" FontSize="18" FontAttributes="Bold"
+                               TextColor="#1A1A2E" HorizontalOptions="Center"/>
+                        <Label Text="Medición" FontSize="12" TextColor="#888888"
+                               HorizontalOptions="Center"/>
+                        <Button Text="Abrir"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                BackgroundColor="#27AE60"
+                                TextColor="White"
+                                CornerRadius="8"
+                                HeightRequest="38"
+                                Clicked="OnReglaClicked"/>
+                    </VerticalStackLayout>
+                </Border>
 
-        <Button x:Name="LinternaButton"
-            Text="Linterna"
-            FontSize="24"
-            FontAttributes="Bold"
-            BackgroundColor="#E67E22"
-            TextColor="White"
-            CornerRadius="15"
-            WidthRequest="200"
-            HeightRequest="80"
-            Clicked="OnLinternaClicked"/>
+                <!-- Nivel -->
+                <Border Grid.Row="1" Grid.Column="0"
+                        BackgroundColor="White"
+                        Stroke="Transparent"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.06"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <BoxView Color="#E67E22" WidthRequest="40" HeightRequest="4"
+                                 CornerRadius="2" HorizontalOptions="Center" Margin="0,4,0,0"/>
+                        <Label Text="Nivel" FontSize="18" FontAttributes="Bold"
+                               TextColor="#1A1A2E" HorizontalOptions="Center"/>
+                        <Label Text="Inclinación" FontSize="12" TextColor="#888888"
+                               HorizontalOptions="Center"/>
+                        <Button Text="Abrir"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                BackgroundColor="#E67E22"
+                                TextColor="White"
+                                CornerRadius="8"
+                                HeightRequest="38"
+                                Clicked="OnNivelClicked"/>
+                    </VerticalStackLayout>
+                </Border>
 
-        <Image x:Name="ReglaImagen"
-               Source="regla.png"
-               WidthRequest="200"
-               HeightRequest="200"
-               Aspect="AspectFit"
-               HorizontalOptions="Center"
-               Margin="0,10,0,0"
-               IsVisible="False"/>
+                <!-- Lupa -->
+                <Border Grid.Row="1" Grid.Column="1"
+                        BackgroundColor="White"
+                        Stroke="Transparent"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.06"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <BoxView Color="#9B59B6" WidthRequest="40" HeightRequest="4"
+                                 CornerRadius="2" HorizontalOptions="Center" Margin="0,4,0,0"/>
+                        <Label Text="Lupa" FontSize="18" FontAttributes="Bold"
+                               TextColor="#1A1A2E" HorizontalOptions="Center"/>
+                        <Label Text="Ampliar" FontSize="12" TextColor="#888888"
+                               HorizontalOptions="Center"/>
+                        <Button Text="Abrir"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                BackgroundColor="#9B59B6"
+                                TextColor="White"
+                                CornerRadius="8"
+                                HeightRequest="38"
+                                Clicked="OnLupaClicked"/>
+                    </VerticalStackLayout>
+                </Border>
 
-    </VerticalStackLayout>
+                <!-- Linterna -->
+                <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                        BackgroundColor="White"
+                        Stroke="Transparent"
+                        Padding="16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.06"/>
+                    </Border.Shadow>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center">
+                            <Label Text="Linterna" FontSize="18" FontAttributes="Bold"
+                                   TextColor="#1A1A2E"/>
+                            <Label Text="Usa el flash del dispositivo"
+                                   FontSize="13" TextColor="#888888"/>
+                        </VerticalStackLayout>
+                        <Button x:Name="LinternaButton" Grid.Column="1"
+                                Text="Linterna"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                BackgroundColor="#E67E22"
+                                TextColor="White"
+                                CornerRadius="10"
+                                WidthRequest="150"
+                                HeightRequest="44"
+                                Clicked="OnLinternaClicked"/>
+                    </Grid>
+                </Border>
 
+            </Grid>
+
+            <!-- Regla Image (hidden by default) -->
+            <Border x:Name="ReglaImagen"
+                    BackgroundColor="White"
+                    Stroke="Transparent"
+                    Padding="16"
+                    IsVisible="False">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.06"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Label Text="Regla Visual" FontSize="18" FontAttributes="Bold"
+                           TextColor="#1A1A2E" HorizontalOptions="Center"/>
+                    <Image Source="regla.png"
+                           WidthRequest="200"
+                           HeightRequest="200"
+                           Aspect="AspectFit"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>

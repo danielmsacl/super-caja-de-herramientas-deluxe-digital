@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+#if !WINDOWS
+using Camera.MAUI;
+#endif
 
 namespace CajaHerramientas
 {
@@ -9,6 +12,9 @@ namespace CajaHerramientas
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+#if !WINDOWS
+                .UseMauiCameraView()
+#endif
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

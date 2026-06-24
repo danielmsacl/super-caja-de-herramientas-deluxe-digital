@@ -13,15 +13,15 @@ namespace CajaHerramientas.Vistas
         }
 
         // Botón Brújula
-        private async void OnBrujulaClicked(object sender, EventArgs e)
+        private void OnBrujulaClicked(object? sender, EventArgs e)
         {
-            await DisplayAlertAsync("Brújula", "Has seleccionado la Brújula", "OK");
+            Navigation.PushAsync(new Brujula());
         }
 
         // Botón Regla 
-        private void OnReglaClicked(object sender, EventArgs e)
+        private void OnReglaClicked(object? sender, EventArgs e)
         {
-            ReglaImagen.IsVisible = true;
+            Navigation.PushAsync(new Regla());
         }
 
         // Botón Nivel
@@ -46,7 +46,7 @@ namespace CajaHerramientas.Vistas
                     await Flashlight.Default.TurnOnAsync();
                     _linternaEncendida = true;
                     LinternaButton.BackgroundColor = Colors.Green;
-                    LinternaButton.Text = "🔦 ENCENDIDA";
+                    LinternaButton.Text = "ENCENDIDA";
                 }
                 else
                 {

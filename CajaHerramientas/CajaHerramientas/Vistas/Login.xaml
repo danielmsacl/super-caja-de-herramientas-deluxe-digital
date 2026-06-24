@@ -2,44 +2,90 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CajaHerramientas.Vistas.Login"
-             BackgroundColor="#6A5ACD">
+             BackgroundColor="#F0F4F8"
+             NavigationPage.HasNavigationBar="False">
 
-    <VerticalStackLayout Padding="30" Spacing="25" VerticalOptions="Center">
+    <ScrollView>
+        <VerticalStackLayout VerticalOptions="Center" Padding="30" Spacing="0">
 
-        <Image Source="logo.png"
-               WidthRequest="480"
-               HeightRequest="280"
-               Aspect="AspectFit"
-               HorizontalOptions="Center"/>
+            <!-- Logo -->
+            <Image Source="logo.png"
+                   WidthRequest="300"
+                   HeightRequest="180"
+                   Aspect="AspectFit"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,24"/>
 
-        <Label Text="Ingresar nombre"
-               FontSize="30"
-               TextColor="#000000"
-               HorizontalOptions="Center"/>
+            <!-- Login Card -->
+            <Border BackgroundColor="White"
+                    Stroke="Transparent"
+                    Padding="28"
+                    Margin="0,0,0,20">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16"/>
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,4" Radius="16" Opacity="0.08"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="20">
 
-        <Entry x:Name="NombreEntry"
-               Placeholder="Tu nombre"
-               FontSize="20"
-               BackgroundColor="White"
-               TextColor="Black"
-               HorizontalOptions="Fill"/>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Bienvenido"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="#1A1A2E"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Ingresa tu nombre para comenzar"
+                               FontSize="14"
+                               TextColor="#888888"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
 
-        <Button x:Name="EntrarButton"
-                Text="ENTRAR"
-                FontSize="16"
-                BackgroundColor="#3498DB"
-                TextColor="#000000"
-                CornerRadius="5"
-                HorizontalOptions="Fill"
-                Clicked="OnEntrarClicked"/>
+                    <BoxView Color="#E8E8E8" HeightRequest="1" HorizontalOptions="Fill"/>
 
-        <Label x:Name="BienvenidaLabel"
-               FontSize="18"
-               FontAttributes="Bold"
-               TextColor="#27AE60"
-               HorizontalOptions="Center"
-               IsVisible="False"/>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Nombre"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#555555"/>
+                        <Border BackgroundColor="#F5F6FA"
+                                Stroke="#E0E0E0"
+                                Padding="4,0"
+                                StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Entry x:Name="NombreEntry"
+                                   Placeholder="Tu nombre"
+                                   PlaceholderColor="#BBBBBB"
+                                   FontSize="16"
+                                   BackgroundColor="Transparent"
+                                   TextColor="#1A1A2E"/>
+                        </Border>
+                    </VerticalStackLayout>
 
-    </VerticalStackLayout>
+                    <Button x:Name="EntrarButton"
+                            Text="ENTRAR"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            BackgroundColor="#3498DB"
+                            TextColor="White"
+                            CornerRadius="10"
+                            HeightRequest="50"
+                            HorizontalOptions="Fill"
+                            Clicked="OnEntrarClicked"/>
+
+                    <Label x:Name="BienvenidaLabel"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#27AE60"
+                           HorizontalOptions="Center"
+                           IsVisible="False"/>
+
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>
