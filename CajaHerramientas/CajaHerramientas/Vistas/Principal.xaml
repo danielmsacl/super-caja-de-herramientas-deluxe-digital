@@ -8,7 +8,7 @@
     <ScrollView>
         <VerticalStackLayout Spacing="16" Padding="20">
 
-            <!-- Header -->
+           
             <Border BackgroundColor="White"
                     Stroke="Transparent"
                     Padding="24">
@@ -36,13 +36,13 @@
                 </VerticalStackLayout>
             </Border>
 
-            <!-- Tools Grid -->
+            
             <Grid ColumnDefinitions="*,*"
                   RowDefinitions="Auto,Auto,Auto"
                   ColumnSpacing="12"
                   RowSpacing="12">
 
-                <!-- Brújula -->
+            
                 <Border Grid.Row="0" Grid.Column="0"
                         BackgroundColor="White"
                         Stroke="Transparent"
@@ -71,7 +71,7 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Regla -->
+             
                 <Border Grid.Row="0" Grid.Column="1"
                         BackgroundColor="White"
                         Stroke="Transparent"
@@ -100,7 +100,6 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Nivel -->
                 <Border Grid.Row="1" Grid.Column="0"
                         BackgroundColor="White"
                         Stroke="Transparent"
@@ -129,7 +128,7 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Lupa -->
+              
                 <Border Grid.Row="1" Grid.Column="1"
                         BackgroundColor="White"
                         Stroke="Transparent"
@@ -158,7 +157,7 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Linterna -->
+              
                 <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                         BackgroundColor="White"
                         Stroke="Transparent"
@@ -191,7 +190,7 @@
 
             </Grid>
 
-            <!-- Regla Image (hidden by default) -->
+         
             <Border x:Name="ReglaImagen"
                     BackgroundColor="White"
                     Stroke="Transparent"

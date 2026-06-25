@@ -1,218 +1,135 @@
-#if !WINDOWS
-using Camera.MAUI;
-#endif
-
 namespace CajaHerramientas.Vistas
 {
     public partial class Regla : ContentPage
     {
-        private readonly RulerDrawable _drawable;
-        private bool _isMeasuring;
-        private bool _hasGravity;
-
-        private double _gx, _gy, _gz;
-        private double _vx, _vy, _vz;
-        private double _px, _py, _pz;
-        private DateTime _lastSample;
-        private double _totalDistanceCm;
-
-        private const double GravityAlpha = 0.85;
-        private const double VelocityDecay = 0.97;
-        private const double NoiseThreshold = 0.04;
-        private const float PixelsPerCm = 8f;
-
         public Regla()
         {
             InitializeComponent();
-            _drawable = new RulerDrawable();
-            RulerOverlay.Drawable = _drawable;
-
-#if !WINDOWS
-            var cameraView = new CameraView { AutoStartPreview = true };
-            CameraContainer.Children.Add(cameraView);
-#else
-            StatusLabel.Text = "Cámara no disponible en Windows";
-#endif
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
-            if (Accelerometer.Default.IsSupported)
-            {
-                Accelerometer.Default.ReadingChanged += OnAccelerometerReading;
-                Accelerometer.Default.Start(SensorSpeed.Game);
-            }
-            else
-            {
-                StatusLabel.Text = "Acelerómetro no disponible en este dispositivo";
-                IniciarButton.IsEnabled = false;
-            }
+            UpdateRuler();
         }
 
-        protected override void OnDisappearing()
+        protected override void OnSizeAllocated(double width, double height)
         {
-            base.OnDisappearing();
-
-            if (Accelerometer.Default.IsMonitoring)
-            {
-                Accelerometer.Default.ReadingChanged -= OnAccelerometerReading;
-                Accelerometer.Default.Stop();
-            }
+            base.OnSizeAllocated(width, height);
+            if (width > 0) UpdateRuler();
         }
 
-        private void OnAccelerometerReading(object? sender, AccelerometerChangedEventArgs e)
+        private void UpdateRuler()
         {
-            var raw = e.Reading.Acceleration;
-            var now = DateTime.UtcNow;
+            var info = DeviceDisplay.MainDisplayInfo;
+            var dipsPerCm = CalcDipsPerCm();
+            var totalCm = info.Width / dipsPerCm;
 
-            if (!_hasGravity)
-            {
-                _gx = raw.X; _gy = raw.Y; _gz = raw.Z;
-                _hasGravity = true;
-                _lastSample = now;
-                return;
-            }
+            ScreenWidthLabel.Text = $"Ancho de pantalla: {totalCm:F1} cm";
 
-            var dt = (now - _lastSample).TotalSeconds;
-            if (dt <= 0 || dt > 0.1) { _lastSample = now; return; }
-            _lastSample = now;
-
-            _gx = GravityAlpha * _gx + (1 - GravityAlpha) * raw.X;
-            _gy = GravityAlpha * _gy + (1 - GravityAlpha) * raw.Y;
-            _gz = GravityAlpha * _gz + (1 - GravityAlpha) * raw.Z;
-
-            var lx = raw.X - _gx;
-            var ly = raw.Y - _gy;
-            var lz = raw.Z - _gz;
-
-            var mag = Math.Sqrt(lx * lx + ly * ly + lz * lz);
-            if (mag < NoiseThreshold)
-            {
-                lx = 0; ly = 0; lz = 0;
-            }
-
-            if (_isMeasuring)
-            {
-                _vx = (_vx + lx * dt) * VelocityDecay;
-                _vy = (_vy + ly * dt) * VelocityDecay;
-                _vz = (_vz + lz * dt) * VelocityDecay;
-
-                _px += _vx * dt;
-                _py += _vy * dt;
-                _pz += _vz * dt;
-
-                var totalM = Math.Sqrt(_px * _px + _py * _py + _pz * _pz);
-                _totalDistanceCm = totalM * 100;
-
-                if (_totalDistanceCm < 0.5 && mag < NoiseThreshold)
-                {
-                    _totalDistanceCm = 0;
-                }
-
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    DistanciaLabel.Text = $"{_totalDistanceCm:F1} cm";
-                    _drawable.DistancePixels = (float)(_totalDistanceCm * PixelsPerCm);
-                    RulerOverlay.Invalidate();
-                });
-            }
+            RulerView.Drawable = new RulerDrawable((float)dipsPerCm, (float)info.Width);
+            RulerView.Invalidate();
         }
 
-        private void OnIniciarClicked(object? sender, EventArgs e)
+        private static double CalcDipsPerCm()
         {
-            _isMeasuring = true;
-            _vx = _vy = _vz = 0;
-            _px = _py = _pz = 0;
-            _totalDistanceCm = 0;
-            _hasGravity = false;
-            _drawable.DistancePixels = 0;
-
-            DistanciaLabel.Text = "0.0 cm";
-            StatusLabel.Text = "Midiendo... Avanza con el dispositivo";
-            IniciarButton.IsEnabled = false;
-            FinalizarButton.IsEnabled = true;
-            RulerOverlay.Invalidate();
-        }
-
-        private void OnFinalizarClicked(object? sender, EventArgs e)
-        {
-            _isMeasuring = false;
-
-            StatusLabel.Text = "Medición completada";
-            IniciarButton.IsEnabled = true;
-            FinalizarButton.IsEnabled = false;
-
-            DistanciaLabel.Text = $"{_totalDistanceCm:F1} cm";
-            _drawable.DistancePixels = (float)(_totalDistanceCm * PixelsPerCm);
-            RulerOverlay.Invalidate();
+#if WINDOWS
+            return 96.0 / 2.54;
+#elif IOS
+            return 163.0 / 2.54;
+#else
+            return 160.0 / 2.54;
+#endif
         }
     }
 
     public class RulerDrawable : IDrawable
     {
-        public float DistancePixels { get; set; }
-        private const float ScalePixelsPerCm = 8f;
+        private readonly float _dipsPerCm;
+        private readonly float _screenWidthDips;
+        private const float RulerY = 80f;
+        private const float LeftMargin = 16f;
+        private const float RightMargin = 16f;
+        private const int MmPerCm = 10;
+
+        public RulerDrawable(float dipsPerCm, float screenWidthDips)
+        {
+            _dipsPerCm = dipsPerCm;
+            _screenWidthDips = screenWidthDips;
+        }
 
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
-            var w = dirtyRect.Width;
-            var h = dirtyRect.Height;
-            var rulerY = h / 2;
-            var leftMargin = 30f;
+            var drawWidth = Math.Min(_screenWidthDips, dirtyRect.Width);
+            var rightX = drawWidth - RightMargin;
+            var rulerWidth = rightX - LeftMargin;
+            var totalMm = (int)(rulerWidth / _dipsPerCm * MmPerCm);
 
-            if (DistancePixels <= 0)
-            {
-                canvas.FontColor = Color.FromArgb("#888888");
-                canvas.FontSize = 14;
-                canvas.DrawString("← Inicia la medición →", w / 2, rulerY, HorizontalAlignment.Center);
-                return;
-            }
+            canvas.Antialias = true;
 
-            var lineLength = Math.Min(DistancePixels, w - leftMargin - 20);
-            var rightX = leftMargin + lineLength;
-
-            canvas.StrokeColor = Colors.White;
-            canvas.StrokeSize = 3;
-            canvas.DrawLine(leftMargin, rulerY, rightX, rulerY);
-
-            canvas.StrokeColor = Colors.White;
+           
+            canvas.StrokeColor = Color.FromArgb("#ECF0F1");
             canvas.StrokeSize = 2;
-            canvas.DrawLine(leftMargin, rulerY - 15, leftMargin, rulerY + 15);
+            canvas.DrawLine(LeftMargin, RulerY, rightX, RulerY);
 
-            canvas.FillColor = Color.FromArgb("#27AE60");
-            var path = new PathF();
-            path.MoveTo(rightX, rulerY - 12);
-            path.LineTo(rightX + 10, rulerY);
-            path.LineTo(rightX, rulerY + 12);
-            path.Close();
-            canvas.FillPath(path);
-
-            var cmCount = (int)(lineLength / ScalePixelsPerCm);
-            for (int i = 1; i <= cmCount; i++)
+            for (int mm = 0; mm <= totalMm; mm++)
             {
-                var x = leftMargin + i * ScalePixelsPerCm;
+                var x = LeftMargin + mm * _dipsPerCm / MmPerCm;
                 if (x > rightX) break;
 
-                bool isMainTick = i % 5 == 0;
-                var tickHeight = isMainTick ? 15f : 10f;
+                bool isCm = mm % MmPerCm == 0;
+                bool isHalf = mm % (MmPerCm / 2) == 0;
+                int cmNum = mm / MmPerCm;
+                bool is5Cm = isCm && cmNum % 5 == 0;
 
-                canvas.StrokeColor = isMainTick ? Colors.White : Color.FromArgb("#AAAAAA");
-                canvas.StrokeSize = isMainTick ? 2f : 1f;
-                canvas.DrawLine(x, rulerY - tickHeight, x, rulerY + tickHeight);
+                float tickHeight;
+                float fontSize;
+                Color color;
 
-                if (isMainTick || i % 2 == 0)
+                if (is5Cm)
                 {
-                    canvas.FontColor = Colors.White;
-                    canvas.FontSize = 10;
-                    canvas.DrawString($"{i}", x, rulerY + tickHeight + 12, HorizontalAlignment.Center);
+                    tickHeight = 28f;
+                    fontSize = 13f;
+                    color = Colors.White;
+                }
+                else if (isCm)
+                {
+                    tickHeight = 22f;
+                    fontSize = 11f;
+                    color = Color.FromArgb("#BDC3C7");
+                }
+                else if (isHalf)
+                {
+                    tickHeight = 16f;
+                    fontSize = 0f;
+                    color = Color.FromArgb("#95A5A6");
+                }
+                else
+                {
+                    tickHeight = 10f;
+                    fontSize = 0f;
+                    color = Color.FromArgb("#5D6D7E");
+                }
+
+                canvas.StrokeColor = color;
+                canvas.StrokeSize = isCm ? 2f : 1f;
+                canvas.DrawLine(x, RulerY - tickHeight, x, RulerY + tickHeight);
+
+                if (isCm)
+                {
+                    canvas.FontColor = color;
+                    canvas.FontSize = fontSize;
+                    canvas.DrawString($"{cmNum}", x, RulerY + tickHeight + 5,
+                        HorizontalAlignment.Center);
                 }
             }
 
-            canvas.FontColor = Color.FromArgb("#27AE60");
-            canvas.FontSize = 14;
-            canvas.DrawString($"{DistancePixels / ScalePixelsPerCm:F1} cm", rightX + 16, rulerY + 4, HorizontalAlignment.Left);
+           
+            var totalCm = rulerWidth / _dipsPerCm;
+            canvas.FontColor = Color.FromArgb("#3498DB");
+            canvas.FontSize = 12;
+            canvas.DrawString($"{totalCm:F1} cm →", rightX - 2, RulerY - 34,
+                HorizontalAlignment.Right);
         }
     }
 }

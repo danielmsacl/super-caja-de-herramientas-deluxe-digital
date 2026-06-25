@@ -8,10 +8,9 @@
             Padding="30,0"
             Spacing="25">
             <Image
-                Source="dotnet_bot.png"
+                Source="logo.png"
                 HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a submarine number ten" />
+                Aspect="AspectFit" />
 
             <Label
                 Text="Hello, World!"

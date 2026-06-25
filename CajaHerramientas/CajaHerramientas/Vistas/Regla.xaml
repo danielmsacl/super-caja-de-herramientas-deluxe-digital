@@ -3,75 +3,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CajaHerramientas.Vistas.Regla"
              Title="Regla"
-             BackgroundColor="Black">
+             BackgroundColor="#1A1A2E">
 
-    <Grid>
-        <!-- Camera preview container (populated in code-behind) -->
-        <Grid x:Name="CameraContainer"/>
+    <Grid RowDefinitions="Auto,*,Auto">
 
-        <!-- Overlay for ruler drawing -->
-        <GraphicsView x:Name="RulerOverlay"
-                       BackgroundColor="Transparent"
-                       InputTransparent="False"/>
+        <VerticalStackLayout Grid.Row="0" Padding="20,50,20,10" Spacing="6">
+            <Label Text="Regla"
+                   FontSize="26"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+            <Label x:Name="ScreenWidthLabel"
+                   Text="..."
+                   FontSize="15"
+                   TextColor="#7F8C8D"
+                   HorizontalOptions="Center"/>
+        </VerticalStackLayout>
 
-        <!-- Bottom controls panel -->
-        <Border VerticalOptions="End"
+        <GraphicsView x:Name="RulerView"
+                       Grid.Row="1"
+                       BackgroundColor="#16213E"
+                       HorizontalOptions="Fill"
+                       VerticalOptions="Center"
+                       HeightRequest="160"/>
+
+        <Border Grid.Row="2"
+                VerticalOptions="End"
                 HorizontalOptions="Fill"
                 BackgroundColor="#CC1A1A2E"
                 Stroke="Transparent"
-                Padding="16"
+                Padding="20"
                 Margin="10,0,10,20">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="16"/>
             </Border.StrokeShape>
-            <VerticalStackLayout Spacing="12">
-
-                <Label x:Name="StatusLabel"
-                       Text="Presiona Iniciar y avanza con el dispositivo"
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Coloca el objeto desde el borde izquierdo de la pantalla"
                        FontSize="14"
-                       TextColor="#AAAAAA"
-                       HorizontalOptions="Center"/>
-
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
-                    <Label Text="📏 Distancia:"
-                           FontSize="22"
-                           FontAttributes="Bold"
-                           TextColor="White"
-                           VerticalOptions="Center"/>
-                    <Label x:Name="DistanciaLabel"
-                           Text="0.0 cm"
-                           FontSize="28"
-                           FontAttributes="Bold"
-                           TextColor="#27AE60"
-                           VerticalOptions="Center"/>
-                </HorizontalStackLayout>
-
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="16">
-                    <Button x:Name="IniciarButton"
-                            Text="▶ Iniciar"
-                            FontSize="16"
-                            FontAttributes="Bold"
-                            BackgroundColor="#3498DB"
-                            TextColor="White"
-                            CornerRadius="10"
-                            WidthRequest="130"
-                            HeightRequest="48"
-                            Clicked="OnIniciarClicked"/>
-                    <Button x:Name="FinalizarButton"
-                            Text="■ Finalizar"
-                            FontSize="16"
-                            FontAttributes="Bold"
-                            BackgroundColor="#E74C3C"
-                            TextColor="White"
-                            CornerRadius="10"
-                            WidthRequest="130"
-                            HeightRequest="48"
-                            IsEnabled="False"
-                            Clicked="OnFinalizarClicked"/>
-                </HorizontalStackLayout>
-
+                       TextColor="#BDC3C7"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+                <Label Text="La regla muestra centímetros reales según el tamaño de tu pantalla"
+                       FontSize="12"
+                       TextColor="#7F8C8D"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
             </VerticalStackLayout>
         </Border>
+
     </Grid>
 
 </ContentPage>
