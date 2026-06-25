@@ -37,7 +37,7 @@ namespace CajaHerramientas.Vistas
         }
 
         // Botón Linterna
-        private async void OnLinternaClicked(object sender, EventArgs e)
+        private async void OnLinternaClicked(object? sender, EventArgs e)
         {
             try
             {

@@ -1,5 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 
+#if !WINDOWS
+using Camera.MAUI;
+#endif
+
 namespace CajaHerramientas
 {
     public static class MauiProgram
@@ -14,6 +18,10 @@ namespace CajaHerramientas
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+#if !WINDOWS
+            builder.UseMauiCameraView();
+#endif
 
 #if DEBUG
             builder.Logging.AddDebug();

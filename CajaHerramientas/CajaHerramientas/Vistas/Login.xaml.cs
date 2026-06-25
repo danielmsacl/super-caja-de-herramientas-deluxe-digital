@@ -10,7 +10,7 @@ namespace CajaHerramientas.Vistas
             InitializeComponent();
         }
 
-        private void OnEntrarClicked(object sender, EventArgs e)
+        private void OnEntrarClicked(object? sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(NombreEntry.Text))
             {

@@ -28,10 +28,7 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
-<<<<<<< HEAD
-=======
 	<key>NSCameraUsageDescription</key>
 	<string>La camara se usa para mostrar objetos en la regla y en la lupa.</string>
->>>>>>> dc116764c5c7ae67cc564310105efa6d16d1ebc0
 </dict>
 </plist>
