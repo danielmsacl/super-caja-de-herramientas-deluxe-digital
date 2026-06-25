@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CajaHerramientas.Vistas.Lupa"
+             Title="Lupa"
+             BackgroundColor="Black">
+
+    <Grid>
+        <Grid x:Name="CameraContainer"/>
+
+        <BoxView Color="Transparent">
+            <BoxView.GestureRecognizers>
+                <PinchGestureRecognizer PinchUpdated="OnPinchUpdated"/>
+            </BoxView.GestureRecognizers>
+        </BoxView>
+
+        <Label x:Name="StatusLabel"
+               Text="Preparando camara..."
+               FontSize="15"
+               TextColor="White"
+               BackgroundColor="#99000000"
+               Padding="12,8"
+               HorizontalOptions="Center"
+               VerticalOptions="Start"
+               Margin="0,16,0,0"/>
+
+        <Border VerticalOptions="End"
+                HorizontalOptions="Fill"
+                BackgroundColor="#CC1A1A2E"
+                Stroke="Transparent"
+                Padding="16"
+                Margin="10,0,10,20">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="16"/>
+            </Border.StrokeShape>
+
+            <VerticalStackLayout Spacing="12">
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
+                    <Label Text="Zoom:"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           VerticalOptions="Center"/>
+                    <Label x:Name="ZoomLabel"
+                           Text="1.0x"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="#9B59B6"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <Slider x:Name="ZoomSlider"
+                        Minimum="1"
+                        Maximum="5"
+                        Value="1"
+                        MinimumTrackColor="#9B59B6"
+                        MaximumTrackColor="#555555"
+                        ThumbColor="#9B59B6"
+                        ValueChanged="OnZoomChanged"/>
+
+                <Button x:Name="EnfocarButton"
+                        Text="Enfocar"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        BackgroundColor="#9B59B6"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="46"
+                        Clicked="OnEnfocarClicked"/>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+
+</ContentPage>

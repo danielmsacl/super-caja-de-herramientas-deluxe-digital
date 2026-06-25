@@ -25,15 +25,15 @@ namespace CajaHerramientas.Vistas
         }
 
         // Botón Nivel
-        private async void OnNivelClicked(object sender, EventArgs e)
+        private void OnNivelClicked(object? sender, EventArgs e)
         {
-            await DisplayAlertAsync("Nivel", "Has seleccionado el Nivel", "OK");
+            Navigation.PushAsync(new Nivel());
         }
 
         // Botón Lupa
-        private async void OnLupaClicked(object sender, EventArgs e)
+        private void OnLupaClicked(object? sender, EventArgs e)
         {
-            await DisplayAlertAsync("Lupa", "Has seleccionado la Lupa", "OK");
+            Navigation.PushAsync(new Lupa());
         }
 
         // Botón Linterna
